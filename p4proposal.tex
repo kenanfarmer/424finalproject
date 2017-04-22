@@ -62,6 +62,7 @@ Detecting or not detecting this decay then helps put bounds on the neutrino mass
 
 This will be a classification problem using all real data.
 
+Majority of the data variables are the momenta of the leptons. Many of the variables are highly correlated to each other due to their similarity in function (i.e. isolationa, isolationb, isolationc ... are all different columns of the "track isolation variable" \cite{kaggleComp}). As for size of the data is consistent of 67553 rows and 51 columns, the testing data is consistent of 855819 and 47 columns. 
 \subsection*{Methodologies to Explore}
 We will use a suite of classification algorithms with various parameters to classify if the lepton decay has occurred or has not occurred. We will use sci-kit learn for this signal detection among noise application. Our goal is  to classify the data into two classes that can be interpreted as the occurrence of an event. Though we are planning on using a variety of classification algorithms there are two tests given by the competition makers to ensure validity of each methodology. We will use the following tests to guide our choice of classification models and selection of  parameters.
 
