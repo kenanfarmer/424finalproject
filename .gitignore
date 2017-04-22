@@ -11,3 +11,5 @@
 *.out
 *.npy
 *.sty
+*.bib
+*.xml
