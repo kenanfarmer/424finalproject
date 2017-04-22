@@ -1,2 +1,13 @@
 /.texpadtmp/*
 *.pdf
+*.zip
+*~
+.DS_Store
+*.blg
+*.aux
+*.log
+*.synctex.gz
+*.bbl
+*.out
+*.npy
+*.sty
