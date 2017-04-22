@@ -5,6 +5,8 @@
 \usepackage{hyperref}
 \usepackage{amsmath, bbold}
 \usepackage{bm}
+\usepackage{biblatex}
+\bibliography{bib.bib}
 
 \newcommand{\e}{\text{e}}
 \newcommand{\bt}{\mathbf}
@@ -34,8 +36,15 @@ Computer Science \\
 \maketitle
 
 \subsection*{Introduction}
-This will be a classification problem using all real data.
+
+The Large Hadron Collider (LHC) is a particle accelerator in Europe. It is designed to test high energy physics, specifically the standard model. The standard model is our current understanding of how the universe behaves. 
+
+One prediction of the standard model is conservation of lepton number \cite{griff87}.
+
 \subsection*{Data Description}
+
+This will be a classification problem using all real data.
+
 \subsection*{Methodologies to Explore}
 
 We will test each Methodology with the following tests to ensure precise results in accordance with the competition requirements. The competition has both an Agreement Test and a Correlation test to improve the quality of methodologies.
@@ -50,5 +59,6 @@ We will follow the guide line of the competition admins for measuring our analys
 \end{center} 
 These weights were chosen to match the evaluation methodology used by CERN scientists.\cite{kaggleComp}.
 
+\printbibliography
 
 \end{document}
