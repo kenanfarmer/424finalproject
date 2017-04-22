@@ -61,13 +61,14 @@ The $\tau\to\mu\mu\mu$ reaction is one such violation. The Feynman diagram for t
 This will be a classification problem using all real data.
 
 \subsection*{Methodologies to Explore}
-
+We will use a suite of classification algorithms with various parameters to classify if the lepton decay has occurred or has not occurred. We will use sci-kit learn for this signal detection among noise application. Our goal is  to classify the data into two classes that can be interpreted as the occurrence of an event. Though we are planning on using a variety of classification algorithms there are two tests given by the competition makers to ensure validity of each methodology. We will use the following tests to guide our choice of classification models and selection of  parameters.
 
 We will test each Methodology with the following tests to ensure precise results in accordance with the competition requirements. The competition has both an Agreement Test and a Correlation test to improve the quality of methodologies.
 
 The Correlation Test is to ensure that the Methodology does not have any correlation with the mass of the particle being inspected. This correlation could lead to false signaling and obfuscate our classification algorithm performance. Though mass is not currently included as a column or observation variable, it is used to run the Cramer-von Mises(cvm) test and so we will use the competition's Correlation test to evaluate if any significant correlation with latent mass of the particle exists.
 
 The Agreement test is to ensure that each classifier does not have a large discrepancy between simulated data and real data. Since the classifier is trained on a mix of simulated signal and real data background, it is possible to reach a high performance by picking features that are not perfectly modeled in the simulation. The competition requires that the classifier not have a large discrepancy when applied to real and simulated data. \cite{kaggleComp}
+
 \subsection*{Metrics}
 We will follow the guide line of the competition admins for measuring our analysis performance. The main metric we will use to evaluate our methodologies is the Weighted Area under the ROC curve. The ROC curve is divided into sections based on the True Positive Rate (TPR). To calculate the total area, multiply the area with TPR in [0., 0.2] by weight 2.0, the area with TPR in [0.2, 0.4] by 1.5, the area with TPR [0.4, 0.6] with weight 1.0, and the area with TPR [0.6, 0.8] with weight 0.5. Anything above a TPR of 0.8 has weight 0. This metric is illustrated in the following figure:
 \begin{center}
