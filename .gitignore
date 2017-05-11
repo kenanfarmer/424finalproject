@@ -22,3 +22,6 @@ LaTeX/cstahl_ehirsch_kfarmer_final.pdf
 *.bib
 *.xml
 hdata/
+
+.ipynb_checkpoints/
+
