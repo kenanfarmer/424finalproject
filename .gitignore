@@ -16,9 +16,9 @@ LaTeX/cstahl_ehirsch_kfarmer_final.pdf
 *.log
 *.synctex.gz
 *.bbl
+*blx.bib
 *.out
 *.npy
 *.sty
-*.bib
 *.xml
 hdata/

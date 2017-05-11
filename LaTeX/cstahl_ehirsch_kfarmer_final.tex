@@ -4,17 +4,24 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 
-\title{Formatting Instructions for COS 424 Homeworks and Project}
+\usepackage{biblatex}
+\bibliography{bib.bib}
+
+\title{Detecting Duplicate Quora Questions}
 
 
 \author{
-Coauthor\\
-Affiliation\\
-\texttt{email} \\
+Meir Hirsch \\
+Computer Science\\
+\texttt{ehirsch@} \\
 \And
-Coauthor \\
-Affiliation \\
-\texttt{email} \\
+Charles Stahl \\
+Physics \\
+\texttt{cnstahl@} \\
+\And
+Kenan Farmer\\
+Computer Science \\
+\texttt{kfarmer@}\\
 }
 
 \newcommand{\fix}{\marginpar{FIX}}
@@ -30,7 +37,7 @@ Affiliation \\
 
 \section{Introduction}
 
-All homework submissions are limited to give pages of text (with additional pages for bibliography). The final project is limited to eight pages of text (with additional pages for bibliography). Note that any homework or project submissions that exceed these page limits will not be read.
+Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}.
 
 \section{Related Work}
 %This is an example for citing an article \cite{zhu2009}.
@@ -48,7 +55,6 @@ Select one of the methods you chose for application in this assignment and descr
 \subsubsection*{Acknowledgments}
 
 
-\bibliography{ref}
-\bibliographystyle{plain}
+\printbibliography
 
 \end{document}
