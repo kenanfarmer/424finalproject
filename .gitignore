@@ -1,6 +1,9 @@
 /.texpadtmp/*
 proposal/p4proposal.pdf 
 *.zip
+data/sample_submission.csv
+data/test.csv
+data/train.csv
 *~
 .DS_Store
 *.blg
