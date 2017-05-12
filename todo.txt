@@ -4,6 +4,12 @@ Word vector differences
 Term frequency
 parts of speech
 
+word embeddings — Charlie 
+
+wordnet
+tfidf
+embeddings
+
 
 
 Machine Learning Methods
@@ -16,3 +22,10 @@ Writing
 ———————
 Poster intro etc — Charlie
 Writeup methodology — Charlie
+
+
+
+
+Miscilaneous
+————————————
+Find exact duplicates in distinct pairs 

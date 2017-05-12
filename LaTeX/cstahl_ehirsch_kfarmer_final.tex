@@ -61,9 +61,11 @@ An earlier paper focused on detecting duplicate bug reports~\cite{Runeson2007}. 
 
 A major source of features was word embeddings, such as Gensim's implementation of \texttt{word2vec}~\cite{gensim}.
 
+WordNet~\cite{wordnet}.
+
 \subsection{Methodology}
 
-The training data was read from csv files using Pandas~\cite{pandas}.
+The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
 \subsection{One method in detail}
 
