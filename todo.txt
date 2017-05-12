@@ -1,0 +1,18 @@
+Feature engineering
+———————————————————
+Word vector differences
+Term frequency
+parts of speech
+
+
+
+Machine Learning Methods
+————————————————————————
+
+
+
+
+Writing
+———————
+Poster intro etc — Charlie
+Writeup methodology — Charlie
