@@ -32,17 +32,34 @@ Computer Science \\
 \maketitle
 
 \begin{abstract}
-
+This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate questions on Quora, a popular question-and-answer website~\cite{quora}. The training data included \_\_\_\_ question pairs, classified as duplicates or not. The testing set was \_\_\_\_ unlabeled pairs. We used \_\_features\_\_ to reduce the dimensionality of the data, and \_\_methods\_\_ to classify duplicates. The best was \_\_\_\_.
 \end{abstract}
 
 \section{Introduction}
 
-Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}.
+Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}. \_\_How popular?\_\_
+
+Once these questions are answered, any other person should be able to find the responses. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. 
+
+Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the full response the website has to offer.
+
+Quora currently identifies duplicate questions with a Random Forest model~\cite{kaggleComp}. Quora does not have a method for users to mark questions as duplicates, although they allow users to redirect questions. Stack Exchange, a similar question-answer website, does allow users to mark questions as duplicates~\cite{stackdup}.
+
+
 
 \section{Related Work}
-%This is an example for citing an article \cite{zhu2009}.
+
+Zhang, et. al. created a duplicate detection tool for use on the Stack Overflow, a website in the Stack Exchange network~\cite{Zhang2015}. It uses the title, content, and tags of the questions to assign topics using Latent Dirichlet Allocation (LDA)~\cite{Blei03}. The method then predicts duplicates by comparing topic distributions.
+
+An earlier duplicate detection paper focused on detecting duplicate bug reports~\cite{Runeson2007}. The motivation of this problem is similar, centering on the wasted time used to identify and respond to duplicate reports. This study used standard NLP tools along with a term-frequency vector space to define distance measured between reports. 
 
 \section{Methods}
+
+\subsection{Feature Engineering}
+
+A major source of features was word embeddings, such as Gensim's implementation of \texttt{word2vec}~\cite{gensim}.
+
+\subsection{Methodology}
 
 \subsection{One method in detail}
 
