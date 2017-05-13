@@ -3,6 +3,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{amsmath}
 
 \usepackage{biblatex}
 \bibliography{bib.bib}
@@ -26,6 +27,7 @@ Computer Science \\
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
+\newcommand{\wordtvec}{\texttt{word2vec}}
 
 \begin{document}
 
@@ -61,7 +63,26 @@ Should we tf-idf?
 
 \subsection{Feature Engineering}
 
-A major source of features was word embeddings, such as Gensim's implementation of \texttt{word2vec}~\cite{gensim}.
+A major source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim}. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words carry no significance.
+
+A canonical example is from~\cite{kusner15}. Consider the two sentences
+\begin{center}
+\text{Obama speaks to the media in Illinois.}
+\end{center}
+and 
+\begin{center}
+\text{The President greets the press in Chicago}.
+\end{center}
+These sentences are orthogonal in a space that assigns each word its own dimension. Therefore they have a cosine similarity of 0. However, an effective similarity measure should indicate that these sentences are very closely related.
+
+Word embedding looks at a large corpus to find how different words are related and connected. It creates a space with dimension lower than the number of words, so that each word is represented as a non-sparse vector. Words with similar meaning are closer in this space. Furthermore, algebraic manipulation of these vectors carries significance. Ideally this would lead to usable analogies, such as \textit{Paris - France + Italy = Rome}, or \textit{suhi - Japan + Germany = bratwurst}.
+
+The 2013 implementation from Google, called \wordtvec, uses a shallow neural network to embed words in the vector space~\cite{word2vec}. For a detailed description of \wordtvec see subsection\ref{sub:detail}.
+
+From the \wordtvec embeddings of the words in each question, we can compute the word mover's distance (WMD)~\cite{kusner15}. For sentences $M$ and $N$ of length $J$ and $K$ with words $m^j$ and $n^k$, the WMD is defined as 
+\begin{align}
+\text{WMD}(M,N) = \sum_{j=1}^J\min_{n^k\in N}\left|m^j-n^k\right|
+\end{align}
 
 WordNet~\cite{wordnet}.
 
@@ -69,7 +90,7 @@ WordNet~\cite{wordnet}.
 
 The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
-\subsection{One method in detail}
+\subsection{One method in detail} \label{sub:detail}
 
 Select one of the methods you chose for application in this assignment and describe in detail the model or objective, the method for inference, and the approach for prediction in future samples. Include a description of the important assumptions relevant for these data and these analytic questions.
 
