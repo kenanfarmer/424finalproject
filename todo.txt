@@ -8,7 +8,9 @@ word embeddings — Charlie
 
 wordnet
 tfidf
+word count
 embeddings
+log loss of guessing meanitu
 
 
 

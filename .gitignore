@@ -23,5 +23,8 @@ LaTeX/cstahl_ehirsch_kfarmer_final.pdf
 *.xml
 hdata/
 
+python/test_dump.bin
+python/train_dump.bin
+
 .ipynb_checkpoints/
 
