@@ -1,5 +1,6 @@
 /.texpadtmp/*
 proposal/p4proposal.pdf 
+
 data/sample_submission.csv
 data/test.csv
 data/train.csv
@@ -7,9 +8,12 @@ data/train.csv
 data/sample_submission.csv
 data/test.csv
 data/train.csv
+data/saved_vec_mod.kf
+data/embed.vocab
+
 LaTeX/cstahl_ehirsch_kfarmer_final.pdf
 *~
-.DS_Store
+*.DS_Store
 *.blg
 *.aux
 *.sty
@@ -28,3 +32,9 @@ python/train_dump.bin
 
 .ipynb_checkpoints/
 
+
+python/saved_vec_mod.kf
+
+python/save.p
+
+python/saved_vec_mod.kf

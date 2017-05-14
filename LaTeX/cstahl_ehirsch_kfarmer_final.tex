@@ -99,7 +99,6 @@ WordNet~\cite{wordnet}.
 
 The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
-\newpage
 \subsection{One method in detail: \wordtvec} \label{sub:detail}
 
 The \wordtvec\ method introduced in subsection~\ref{sub:features} merits further discussion. Training the model uses a 2-level neural network. The implementation we used was hidden, but understanding the working is still useful. The presentation here is based on tutorials from~\cite{tensorflow} and~\cite{mccormick}.
@@ -123,7 +122,7 @@ h=Mv, \label{eqn:hidden}
 \end{align}
 where $M$ is a $H$ by $N$ matrix containing the weights of all neurons. Since the words are on-hot encoded in $v$, the output of the hidden layer will be a single column of $M$. 
 
-The output layer is defined such that each component is between 0 and 1, and the components sum to 1, using the \texttt{softmax} regression. \_\_define\_\_
+The output layer is defined such that each component is between 0 and 1, and the components sum to 1, using the \texttt{softmax} regression. \_\_define?\_\_
 
 The key to \wordtvec\ is in looking at the output of the hidden layer. In fact, once the model is trained the output layer can be removed. Consider two words whose output vectors are similar. This means the two words are likely to occur in similar environments. This can be interpreted as the two words being semantically related. 
 
@@ -149,7 +148,7 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 	Japan - sushi           & Germany: bratwurst & France: tapas    & USA: pizza      \\
 	\hline
 \end{tabular}}
-\caption{\textbf{Analogy examples from \wordtvec}, taken from the initial paper,~\cite{word2vec}.}
+\caption{\textbf{Analogy examples from \wordtvec}, taken from the initial \wordtvec\ paper,~\cite{word2vec}. Note the analogies are not perfect, but generally good.}
 \label{tab:anal}
 \end{table}
 
@@ -159,6 +158,7 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 
 \subsubsection*{Acknowledgments}
 
+We would like to thank Eric Mitchell for his help and advice, and Bert Bertrand for telling us how to be perfect.
 
 \printbibliography
 
