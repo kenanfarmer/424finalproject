@@ -8,7 +8,7 @@
 \usepackage{biblatex}
 \bibliography{bib.bib}
 
-\title{Detecting Duplicate Quora Questions}
+\title{Already Asked: Detecting Duplicate Question Pairs in the Quora Dataset}
 
 
 \author{
@@ -34,18 +34,18 @@ Computer Science \\
 \maketitle
 
 \begin{abstract}
-This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate questions on Quora, a popular question-and-answer website~\cite{quora}. The training data included \_\_\_\_ question pairs, classified as duplicates or not. The testing set was \_\_\_\_ unlabeled pairs. We used \_\_features\_\_ to reduce the dimensionality of the data, and \_\_methods\_\_ to classify duplicates. The best was \_\_\_\_.
+This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2,345,796 unlabeled pairs. We used bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data, and \_\_methods\_\_ to classify duplicates. The best results were obtained by \_\_\_\_.
 \end{abstract}
 
 \section{Introduction}
 
-Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}. \_\_How popular?\_\_
+Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}. Questions range from "What is the most embarrassing text message you have sent to the wrong person?" to "How do I identify entities in natural language search query?" to "If you were sucked into a black hole, what would happen?"
 
-Once these questions are answered, any other person should be able to find the responses. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. 
+Once these questions are answered, any other person should be able to find the responses, and the questions never needs to be asked again. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the full response the website has to offer.
 
-Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the full response the website has to offer.
+Quora currently identifies duplicate questions with a Random Forest model~\cite{kaggleComp}. Quora does not have a method for users to mark questions as duplicates, although they allow users to redirect questions. Stack Exchange , a similar question-answer website, does allow users to mark questions as duplicates~\cite{stackdup}. 
 
-Quora currently identifies duplicate questions with a Random Forest model~\cite{kaggleComp}. Quora does not have a method for users to mark questions as duplicates, although they allow users to redirect questions. Stack Exchange , a similar question-answer website, does allow users to mark questions as duplicates~\cite{stackdup}.
+To improve their duplicate identification, Quora released a dataset of question pairs on Kaggle, a platform for data science-based prediction and classification problems~\cite{kaggleComp}.
 
 
 
@@ -63,6 +63,8 @@ Should we tf-idf?
 
 \subsection{Feature Engineering}
 
+Our na\"ive method was a BOW method, but instead of defining an individual bag for each question, we defined a bag for each pair of questions, only including words unique to one question or the other. A simply extension of this method 
+
 A major source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim}. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words carry no significance.
 
 A canonical example is from~\cite{kusner15}. Consider the two sentences
@@ -75,14 +77,15 @@ and
 \end{center}
 These sentences are orthogonal in a space that assigns each word its own dimension. Therefore they have a cosine similarity of 0. However, an effective similarity measure should indicate that these sentences are very closely related.
 
-Word embedding looks at a large corpus to find how different words are related and connected. It creates a space with dimension lower than the number of words, so that each word is represented as a non-sparse vector. Words with similar meaning are closer in this space. Furthermore, algebraic manipulation of these vectors carries significance. Ideally this would lead to usable analogies, such as \textit{Paris - France + Italy = Rome}, or \textit{suhi - Japan + Germany = bratwurst}.
+Word embedding looks at a large corpus to find how different words are related and connected. It creates a space with dimension lower than the number of words, so that each word is represented as a non-sparse vector. Words with similar meaning are closer in this space, giving a high similarity score for the above sentences. Furthermore, algebraic manipulation of these vectors carries significance. Ideally this would lead to usable analogies, such as \textit{Paris - France + Italy = Rome}, or \textit{suhi - Japan + Germany = bratwurst}.
 
 The 2013 implementation from Google, called \wordtvec, uses a shallow neural network to embed words in the vector space~\cite{word2vec}. For a detailed description of \wordtvec see subsection\ref{sub:detail}.
 
 From the \wordtvec embeddings of the words in each question, we can compute the word mover's distance (WMD)~\cite{kusner15}. For sentences $M$ and $N$ of length $J$ and $K$ with words $m^j$ and $n^k$, the WMD is defined as 
 \begin{align}
-\text{WMD}(M,N) = \sum_{j=1}^J\min_{n^k\in N}\left|m^j-n^k\right|
+\text{WMD}(M,N) = \sum_{j=1}^J\min_{n^k\in N}\left|m^j-n^k\right|,
 \end{align}
+the sum of the distances from each word in $M$ to the nearest word in $N$.
 
 WordNet~\cite{wordnet}.
 
@@ -90,7 +93,7 @@ WordNet~\cite{wordnet}.
 
 The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
-\subsection{One method in detail} \label{sub:detail}
+\subsection{One method in detail: \wordtvec} \label{sub:detail}
 
 Select one of the methods you chose for application in this assignment and describe in detail the model or objective, the method for inference, and the approach for prediction in future samples. Include a description of the important assumptions relevant for these data and these analytic questions.
 
