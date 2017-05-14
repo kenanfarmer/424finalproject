@@ -102,9 +102,56 @@ The training data was read from csv files using Pandas~\cite{pandas}. Lemmatizat
 \newpage
 \subsection{One method in detail: \wordtvec} \label{sub:detail}
 
-The \wordtvec\ method introduced in subsection~\ref{sub:features} merits further discussion. Training the model uses a 2-level neural network. The implementation we used was hidden, but understanding the working is still useful. The presentation here is based on a tutorial from Tensorflow~\cite{tensorflow}.
+The \wordtvec\ method introduced in subsection~\ref{sub:features} merits further discussion. Training the model uses a 2-level neural network. The implementation we used was hidden, but understanding the working is still useful. The presentation here is based on tutorials from~\cite{tensorflow} and~\cite{mccormick}.
 
-As previously mentioned, the motivation of word embeddings is to find a vector representation for words that is not as sparse as BOW-based methods. 
+As previously mentioned, the motivation of word embeddings is to find a vector representation for words that is not as sparse as count-based methods. To do this, we first train a neural network to learn the relationships between words and environments, or histories. The Continuous Bag-of-Words model predicts words based on environments while the skip-gram model predicts environments based on individual words. This uses a 2-layer neural network, as seen in figure~\ref{fig:skipgram}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.5\textwidth]{skip_gram_net_arch}
+	\caption{\textbf{Architecture for Skip-Gram Model.} The network contains two layers after the input vector. The output layer predicts the word, but the hidden layer contains the weights used for embedding. Image from~\cite{mccormick}.}
+	\label{fig:skipgram}
+\end{figure}
+
+For a vocabulary of size $N$, the input is a $N$-component vector one-hot encoded for the input word $v$. The output vector also has $N$ components, each of which is the probability that a word in the environment of $v$ is the word corresponding to that component. 
+
+Neural networks work using neurons, each of which has an input and weights. In the skip-gram architecture, each neuron in the hidden layer has the input vector as its input. Each neuron in the output layer has all hidden neurons as input. Each training step consists of choosing a word to train on, feeding it though the network, and calculating the loss of the output vector. The parameters $\theta$ of the model are then moved slightly in the direction of the gradient of the loss w.r.t. $\theta$.
+
+Once the model is trained, the word embeddings can be extracted. Consider a model with $H$ hidden neurons. Since each is linear, the vector of activations $h$ is just
+\begin{align}
+h=Mv, \label{eqn:hidden}
+\end{align}
+where $M$ is a $H$ by $N$ matrix containing the weights of all neurons. Since the words are on-hot encoded in $v$, the output of the hidden layer will be a single column of $M$. 
+
+The output layer is defined such that each component is between 0 and 1, and the components sum to 1, using the \texttt{softmax} regression. \_\_define\_\_
+
+The key to \wordtvec\ is in looking at the output of the hidden layer. In fact, once the model is trained the output layer can be removed. Consider two words whose output vectors are similar. This means the two words are likely to occur in similar environments. This can be interpreted as the two words being semantically related. 
+
+The last step, to actually obtain dense representations of the words in a vector space, is to realize that since the output vector is a linear transformation of the output of the hidden layer, two words with similar weights in the hidden layer will be semantically related. As described after equation~\ref{eqn:hidden}, these outputs are just the columns of $M$, which can be called the word vectors. 
+
+An impressive display of the significance of \wordtvec\ is the capability to form analogies through algebraic manipulation of vectors. For example, starting with the vector for "Paris," one can subtract the vector for "France" and add the vector for "Italy." The nearest vector in the space will then be "Rome." A list of such analogies is in table~\ref{tab:anal}, including the imperfect analogies.
+
+\begin{table} [tb]
+\centerline{
+\begin{tabular}{|c||c|c|c|}
+	\hline
+	Relationship            &  Example 1             &  Example 2             &   Example 3           \\
+	\hline
+	France - Paris          &   Italy: Rome & Japan: Tokyo  & Florida: Tallahassee    \\
+	big - bigger            & small: larger & cold: colder  & quick: quicker \\
+	Miami - Florida         & Baltimore: Maryland  & Dallas: Texas     & Kona: Hawaii    \\
+	Einstein - scientist    & Messi: midfielder & Mozart: violinist & Picasso: painter \\
+	Sarkozy - France        & Berlusconi: Italy & Merkel: Germany   & Koizumi: Japan  \\
+	copper - Cu             & zinc: Zn          & gold: Au          & uranium: plutonium    \\
+	Berlusconi - Silvio     & Sarkozy: Nicolas  & Putin: Medvedev   & Obama: Barack   \\
+	Microsoft - Windows     & Google: Android   & IBM: Linux        & Apple: iPhone   \\
+	Microsoft - Ballmer     & Google: Yahoo     & IBM: McNealy      & Apple: Jobs     \\
+	Japan - sushi           & Germany: bratwurst & France: tapas    & USA: pizza      \\
+	\hline
+\end{tabular}}
+\caption{\textbf{Analogy examples from \wordtvec}, taken from the initial paper,~\cite{word2vec}.}
+\label{tab:anal}
+\end{table}
 
 \section{Results}
 
