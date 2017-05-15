@@ -95,7 +95,7 @@ From the \wordtvec\ embeddings of the words in each question, we can compute the
 \begin{align}
 \text{WMD}(M,N) = \sum_{j=1}^J\min_{n^k\in N}\left|m^j-n^k\right|,
 \end{align}
-the sum of the distances from each word in $M$ to the nearest word in $N$.
+the total distance needed to move each word in $M$ to the nearest word in $N$.
 
 WordNet~\cite{wordnet}.
 
@@ -170,7 +170,21 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 
 \subsection{\wordtvec}
 
+\subsection{Ensemble Methods}
+
 \section{Discussion and Conclusion}
+
+Our methods were not competitive with the best submissions on Kaggle. As of this write-up, 86 teams had submissions with log loss under 0.2, and 577 under 0.3. However, these methods use \_\_neural networks\_\_. The disadvantage of neural networks is their difficulty to interpret. The methods that we used, especially the more successful ones, benefit from a high level of interpretability. 
+
+For the word count method, the parts of speech with the highest coefficients were \_\_\_\_
+
+BOW methods are particularly interpretable. The words that are the most predictive of duplicate questions are \_\_\_\_
+
+Since \wordtvec\ embeds the words in a lower-dimensional space defined by a neural network, the embeddings themselves are not interpretable. However, when the WMDistances are calculated separately for different parts of speech, we can see which parts of speech need to be close, rather than exact matches.
+
+Lastly, Wordnet \_\_\_\_
+
+In future work, it will be interesting to\_\_\_\_
 
 \subsubsection*{Acknowledgments}
 
