@@ -61,17 +61,21 @@ An earlier paper focused on detecting duplicate bug reports~\cite{Runeson2007}. 
 
 As mentioned in the abstract, the testing set is significantly larger than the training set. Each line of the training set consists of a pair ID, two question IDs, the text of two questions, and an indication of whether the questions have the same intent. The questions are usually between 7 and 12 words in length.
 
+We decided to approach the problem differently than the method in~\cite{Zhang2015}. While they chose to model each question and then look for duplicates, we decided that method would not be as helpful. Since we are looking for duplicates rather than related questions, the all-to-all interactions would be very sparse. Therefore we chose to model the problem as binary classification on question pairs, extracting features from each pair. 
+
 Since the text of the testing data would be available in a real-world application of this problem, we decided that training models on this text would not be considered double-dipping, especially since we did not have labels for this text. 
+
+The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
 \section{Methods}
 
-Should we tf-idf?
-
 \subsection{Feature Engineering} \label{sub:features}
 
-Our na\"ive method was a BOW method, but instead of defining an individual bag for each question, we defined a bag for each pair of questions, only including words unique to one question or the other. A simply extension of this method 
+Our na\"ive method was to count the number of words in common between the two questions in the pair. A slight variant on this was listed on Kaggle as a benchmark. We improved upon this by counting how many words are in common and how many are distinct, and then by separately counting the number of nouns, verbs, named entities and \_\_\_\_, both in common and distinct. 
 
-A major source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim}. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words are not encoded.
+Our next was a BOW method, but instead of defining an individual bag for each question, we defined a bag for each pair of questions, only including words unique to one question or the other. We then defined a second bag, only including distinct words. The second bag did not treat words unique to sentence $a$ differently from those unique to sentence $b$.
+
+A promising source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim} and Spacy's built-in \wordtvec\ embedding. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words are not encoded.
 
 A canonical example is from~\cite{kusner15}. Consider the two sentences
 \begin{center}
@@ -94,10 +98,6 @@ From the \wordtvec\ embeddings of the words in each question, we can compute the
 the sum of the distances from each word in $M$ to the nearest word in $N$.
 
 WordNet~\cite{wordnet}.
-
-\subsection{Methodology}
-
-The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
 
 \subsection{One method in detail: \wordtvec} \label{sub:detail}
 
@@ -154,11 +154,27 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 
 \section{Results}
 
+\subsection{Word Counts} \label{sub:count_res}
+
+\begin{figure}[]
+	\centering
+	\includegraphics[width=.49\textwidth]{roc}
+	\includegraphics[width=.49\textwidth]{roc_wc}
+	\caption{\textbf{ROC curves for word count and BOW methods.}}
+	\label{roc_wc}
+\end{figure}
+
+\subsection{Bag-of-Words} \label{sub:bow_res}
+
+\subsection{WordNet} \label{sub:wnet_res}
+
+\subsection{\wordtvec}
+
 \section{Discussion and Conclusion}
 
 \subsubsection*{Acknowledgments}
 
-We would like to thank Eric Mitchell for his help and advice, and Bert Bertrand for telling us how to be perfect.
+We would like to thank Eric Mitchell and Bert Bertrand for their help and advice.
 
 \printbibliography
 
