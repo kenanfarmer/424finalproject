@@ -32,9 +32,8 @@ python/train_dump.bin
 
 .ipynb_checkpoints/
 
-
 python/saved_vec_mod.kf
 
 python/save.p
 
-python/saved_vec_mod.kf
+*.csv
