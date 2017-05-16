@@ -205,7 +205,7 @@ The best classification method for the word count was a random forest. This is n
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=.49\textwidth]{roc}
+	\includegraphics[width=.49\textwidth]{roc_bow}
 	\includegraphics[width=.49\textwidth]{roc_wc}
 	\caption{\textbf{ROC curves for word count and BOW methods.}}
 	\label{fig:roc_wc}
@@ -257,8 +257,8 @@ We attempted multiple ways to combine different methods. Like in the case of the
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=.49\textwidth]{roc}
-	\caption{\textbf{Violin plot of the probabilities of positive or negative using our engineered BOW features.}}
+	\includegraphics[width=.8\textwidth]{fishes}
+	\caption{\textbf{Violin plots} for the ensemble method, and both BOW and word counts individually.}
 	\label{fig:violin}
 \end{figure}
 
@@ -278,8 +278,7 @@ We attempted multiple ways to combine different methods. Like in the case of the
 \caption{\textbf{Alternative Evaluation Methods.} Log loss is calculated from the probabilities, while all others are generated using predictions with a cutoff probability of 0.5}
 \label{tab:res2}
 \end{table}
-
-This makes sense, as both the BOW and word count methods suffer from shortcomings that the other addresses.
+This makes sense, as both the BOW and word count methods suffer from shortcomings that the other addresses. 
 
 \section{Discussion and Conclusion}
 
