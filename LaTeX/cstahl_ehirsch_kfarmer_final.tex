@@ -193,7 +193,10 @@ The results are summarized in table~\ref{tab:res}.
 \subsection{WordNet} \label{sub:wnet_res}
 
 \subsection{\wordtvec}
-The word to Vector implementation results were extremely puzzling. we can break down our feature set that was input into major categories
+The word to Vector implementation results were extremely puzzling. we can break down our feature set that was input into major categories.
+
+Once each word in a sentence is vectorized there are many ways to filter and evaluate the two collection of vectors. One implementation is known as Word mover's distance. Let a sentence be a list of words. In our case we have lemmatized each word in a sentence and removed stopwords using NLTK's stopwrod corpus. Word movers distance is defined as taking each word inspected in one sentence and finding the minimum distance to a vector in sentence2. The 
+
 \subsection{Ensemble Methods}
 
 \section{Discussion and Conclusion}
