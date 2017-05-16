@@ -290,12 +290,7 @@ The Built-in methods were extremely successful in
 The Average of different methods on the same feature set did not achieve any noticeable improvement over the Built-in methods. This is because when using sklearn's ensemble framework VotingClassifier, differing methods on the same feature set will lead to the dominant method controlling the outcome almost entirely.
 The Average of different methods over different features achieved our best performance for the entire project. In this method an analysis is assigned to a feature and then "votes" for a particular outcome. Those votes across all the features are weighted and then averaged for a final prediction from the voting ensemble.
 
-Ensemble methods we 
-this was the most sucesfull Random forest of trees
-also tried 3 different types
- - builtint RandoForest and Boosting very scucesful
- 0 average together multiple different methods (soft voting) =-  unsuccesful there was one defined victor that was way better
- - 3rd averaged on different sets of features and differing methods
+
 \section{Discussion and Conclusion}
 
 Our methods were not competitive with the best submissions on Kaggle. As of this write-up, 86 teams had submissions with log loss under 0.2, and 577 under 0.3. However, these methods use \_\_neural networks\_\_. The disadvantage of neural networks is their difficulty to interpret. The methods that we used, especially the more successful ones, benefit from a high level of interpretability. 
