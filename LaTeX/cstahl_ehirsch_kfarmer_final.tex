@@ -34,7 +34,7 @@ Computer Science \\
 \maketitle
 
 \begin{abstract}
-This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. The methods we used consisted of counting the overlapping words, bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data. We then used multinomial na\"ive Bayes, \_\_stochastic gradient descent\_\_, logistic regression, and random forest models to classify duplicates. The best method was BOW with logistic regression.
+This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. The methods we used consisted of counting the overlapping words, bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data. We then used multinomial na\"ive Bayes, logistic regression with and without stochastic gradient descent, and random forest models to classify duplicates. The best method was BOW with logistic regression.
 \end{abstract}
 
 \section{Introduction}
@@ -186,12 +186,12 @@ The results are summarized in table~\ref{tab:res}.
 \centerline{
 \begin{tabular}{|c||c|c|c|c|}
 	\hline
-	Log loss       &  MNB    &  \_\_SGD\_\_    & LogReg  & RandForest \\
+	Log loss       &  MNB    & LogReg  & with SGD& RandForest \\
 	\hline
-	Word Count     & 0.96641 & 0.55215 & 0.54342 & 0.49019 \\
-	Bag of Words   & 0.51773 & 0.46103 & 0.41490 & 0.61665 \\
-	BOW, tf-idf    & 0.45464 & 0.52297 & 0.42771 & 0.60837 \\
-	WordCount      &  &  &  &  \\
+	Word Count     & 0.96641 & 0.54342 & 0.55215 & 0.49019 \\
+	Bag of Words   & 0.51773 & 0.41490 & 0.46103 & 0.61665 \\
+	BOW, tf-idf    & 0.45464 & 0.42771 & 0.52297 & 0.60837 \\
+	WordNet        &  &  &  &  \\
 	\wordtvec      &  &  &  &  \\
 	Ensemble       &  &  &  &  \\
 	\hline
