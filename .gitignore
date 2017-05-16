@@ -11,7 +11,11 @@ data/train.csv
 data/saved_vec_mod.kf
 data/embed.vocab
 
-LaTeX/cstahl_ehirsch_kfarmer_final.pdf
+python/kenan_predictions_test.csv
+python/kenan_predictions_test
+python/meir_predictions_test
+
+LaTeX/cnstahl_ehirsch_kfarmer_final.pdf
 *~
 *.DS_Store
 *.blg
