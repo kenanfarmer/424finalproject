@@ -34,18 +34,18 @@ Computer Science \\
 \maketitle
 
 \begin{abstract}
-This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. We used bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data, and \_\_methods\_\_ to classify duplicates. The best results were obtained by \_\_\_\_.
+This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. The methods we used consisted of counting the overlapping words, bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data. We then used multinomial na\"ive Bayes, stochastic gradient descent, logistic regression, and random forest models to classify duplicates. The best method was BOW with logistic regression.
 \end{abstract}
 
 \section{Introduction}
 
 Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}. Questions range from "What is the most embarrassing text message you have sent to the wrong person?" to "How do I identify entities in natural language search query?" to "Do virtual particles and energy in vacuum really exist?"
 
-Once these questions are answered, any other person should be able to find the responses, and the questions never needs to be asked again. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the full response the website has to offer.
+Once a question is answered, any other person should be able to find the response, and the question never needs to be asked again. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the canonical response the website has to offer.
 
 Quora currently identifies duplicate questions with a Random Forest model~\cite{kaggleComp}. Quora does not have a method for users to mark questions as duplicates, although they allow users to redirect questions. Stack Exchange, a similar question-answer website, does allow users to mark questions as duplicates~\cite{stackdup}. 
 
-To improve their duplicate identification, Quora released a dataset of question pairs on Kaggle, a platform for data science-based prediction and classification problems~\cite{kaggleComp}.
+To improve their duplicate identification, Quora released a dataset of question pairs on Kaggle, a platform for data science-based prediction and classification problems~\cite{kaggleComp}. In this project, we identify features and statistical machine learning methods that effectively detect duplicates in the Quora questions. This paper first explores related duplicate detection projects and explains the data used. It then describes the features we chose to extract from the data, with a special emphasis on \wordtvec, a method for word embedding. We then present results, along with analysis and conclusions drawn. 
 
 
 
@@ -57,6 +57,8 @@ Since Quora questions include only the single sentence question, they are nearly
 
 An earlier paper focused on detecting duplicate bug reports~\cite{Runeson2007}. The motivation of this problem is similar, centering on the wasted time used to identify and respond to duplicate reports. This study used standard NLP tools along with a term-frequency vector space to define distance measured between reports. 
 
+
+
 \section{The Data}
 
 As mentioned in the abstract, the testing set is significantly larger than the training set. Each line of the training set consists of a pair ID, two question IDs, the text of two questions, and an indication of whether the questions have the same intent. The questions are usually between 7 and 12 words in length.
@@ -65,17 +67,17 @@ We decided to approach the problem differently than the method in~\cite{Zhang201
 
 Since the text of the testing data would be available in a real-world application of this problem, we decided that training models on this text would not be considered double-dipping, especially since we did not have labels for this text. 
 
-The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. 
+The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. Another NLP tool used is the Natural Language Toolkit~\cite{nltk}.
 
 \section{Methods}
 
 \subsection{Feature Engineering} \label{sub:features}
 
-Our na\"ive method was to count the number of words in common between the two questions in the pair. A slight variant on this was listed on Kaggle as a benchmark. We improved upon this by counting how many words are in common and how many are distinct, and then by separately counting the number of nouns, verbs, named entities and \_\_\_\_, both in common and distinct. 
+Our na\"ive method was to count the number of words in common between the two questions in the pair. A slight variant on this was listed on Kaggle as a benchmark. We improved upon this by counting how many words are in common and how many are distinct, and then by separately counting the number of nouns, verbs, named entities and \_\_\_\_ in common between questions. We also included a count of how many of each part of speech occurs in one sentence but not the other. 
 
 Our next was a BOW method, but instead of defining an individual bag for each question, we defined a bag for each pair of questions, only including words unique to one question or the other. We then defined a second bag, only including distinct words. The second bag did not treat words unique to sentence $a$ differently from those unique to sentence $b$.
 
-A promising source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim} and Spacy's built-in \wordtvec\ embedding. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words are not encoded.
+A promising source of features was word embeddings, using Gensim's implementation of \wordtvec~\cite{gensim} and Spacy's built-in \wordtvec\ embedding. Word embeddings were introduced in the early 2000's to address the high rate of orthogonality inherent in BOW-based methods~\cite{Bengio03}. Since the BOW methods only look at counts of words, the meanings of the words are not encoded. This leads to high-dimensional, very sparse vectors, leading to the high rate of orthogonality.
 
 A canonical example is from~\cite{kusner15}. Consider the two sentences
 \begin{center}
