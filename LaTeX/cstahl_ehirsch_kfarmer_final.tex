@@ -121,9 +121,7 @@ From the \wordtvec\ embeddings of the words in each question, we can compute the
 \end{align}
 the total distance needed to move each word in $M$ to the nearest word in $N$.
 
-The WordNet methods were implemented using NLTK. WordNet is a database of English words and meanings created manually at Princeton~\cite{wordnet}. Words are arranged in syntactic sets based on parts of speech, and connected to their synonyms and antonyms. It is possible to find similarity measures between words using these groups of words. 
-
-For our implementation, we \_\_\_\_
+The WordNet methods were implemented using NLTK. WordNet is a database of English words and meanings created manually at Princeton~\cite{wordnet}. Words are arranged in syntactic sets based on parts of speech, and connected to their synonyms and antonyms. NLTK then uses the database to find similarity measures between words using these groups of words. 
 
 \subsection{One method in detail: \wordtvec} \label{sub:detail}
 
@@ -180,27 +178,28 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 
 \section{Results}
 
-The results are summarized in table~\ref{tab:res}.
+The results for word count and BOW based methods are summarized in table~\ref{tab:res}.
 
 \begin{table}[h]
+\vspace{2mm}
 \centerline{
-\begin{tabular}{|c||c|c|c|c|}
+\begin{tabular}{|c||c|c|c|c|c|}
 	\hline
-	Log loss       &  MNB    & LogReg  & with SGD& RandForest \\
+	Log loss       &  MNB    & LogReg  & with SGD& RandForest & Other \\
 	\hline
-	Word Count     & 0.96641 & 0.54342 & 0.55215 & 0.49019 \\
-	Bag of Words   & 0.51773 & 0.41490 & 0.46103 & 0.61665 \\
-	BOW, tf-idf    & 0.45464 & 0.42771 & 0.52297 & 0.60837 \\
-	WordNet        &  &  &  &  \\
-	\wordtvec      &  &  &  &  \\
-	Ensemble       &  &  &  &  \\
+	Word Count     & 0.96641 & 0.54342 & 0.55215 & 0.49019    & --- \\
+	Bag of Words   & 0.51773 & 0.41490 & 0.46103 & 0.61665    & --- \\
+	BOW, tf-idf    & 0.45464 & 0.42771 & 0.52297 & 0.60837    & --- \\
+	\hline
+	\hline
+	Ensemble       & ---     & ---     & ---     & ---        &  \\
 	\hline
 	\end{tabular}}
 	\caption{\textbf{Log loss results for various models}}
 	\label{tab:res}
 \end{table}
 
-\_\_\_\_ performed the best, blah blah blah
+The ensemble method is an average of the best individual methods.
 
 \subsection{Word Counts} \label{sub:count_res}
 
