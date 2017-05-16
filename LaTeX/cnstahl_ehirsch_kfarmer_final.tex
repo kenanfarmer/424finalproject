@@ -236,8 +236,15 @@ The best classification method for the word count was a random forest. This is n
 
 The Bag of word model is of width twice the vocabulary length, one half to represent the words that are in common between the two questions and one half to represent the words that differ between the two questions. This made the data quite large and immediately showed the problems associated with size in the Random Forest Regressor taking a large amount of time to run. The Random Forest Regressor method from sci-kit learn took so long that we removed that method of analysis in our results. The Multinomial Naive Bayes method ran the fastest out of the methods analyzed and gave surprising performance only to be bested by Logistic Regression for each feature model. The best performing model was logistic regression with a score of .41490 which is a surprising testament to counterintuitive performance of simple models.
  
-Support Vector Machines were computationally too expensive to run any feature set.
 
+\begin{figure}[]
+	\centering
+	\includegraphics[width=.49\textwidth]{roc}
+	\caption{\textbf{Violin plot of the probabilities of positive or negative using our engineered BOW features.}}
+	\label{fig:violin}
+\end{figure}
+ 
+ Support Vector Machines were computationally too expensive to run any feature set.
 \subsection{WordNet} \label{sub:wnet_res}
 Our exploration of WordNet seemed promising from the beginning of the project and through feature planning. However, the vast scale of WordNet and various issues in contextualizing words made this intractable for our large dataset. The main problem is that each word can have different parts of speech or different \textit{meanings} leading to a vast number of synsets per word. In example, the word dog has 11 synsets to which it belongs in the english NLTK corpus. To calculate the WordNet measure of similarity we must filter through these to find the correct match of context. After investigating tools to accomplish this task, We found LESK a function in the NLTK package that resolves which synset to use given the word's context in the sentence. Quickly we found that LESK did not have enough context clues to resolve synsets.
 
@@ -245,14 +252,14 @@ After abandoning the sysnets we attempted to resolve with the most popular conte
 
 %\footnote{We believe in reporting both our failures and our successes which unfortunately is a sparse characteristic in academia research today}
 \subsection{\wordtvec}
-The word to Vector implementation results were extremely puzzling. We expected \wordtvec to perform the best of all our engineered features as it has some interesting properties. With these properties we engineered specific interpretable features of different structures to model the sentences after.
+The \wordtvec feature performance results were extremely puzzling. We expected \wordtvec to perform the best of all our engineered features as it has some interesting properties. With these properties, we engineered specific interpretable features of different structures to model the sentences after.
 
-Once each word in a sentence is vectorized there are many ways to filter and evaluate the two collection of vectors. One implementation is known as Word mover's distance. Let a sentence be a list of words. In our case we have lemmatized each word in a sentence and removed stop words using NLTK's stop word corpus. 
+Once each word in a sentence is vectorized there are many ways to filter and evaluate the two collections of vectors. One implementation is known as Word mover's distance. Let a sentence be a list of words. In our case, we have lemmatized each word in a sentence and removed stop words using NLTK's stop word corpus. 
 
 As a recap, Word movers distance is defined as taking each word inspected in one sentence and finding the minimum distance to a vector in sentence 2. Using this min distance, we sum the total for each vector in sentence1. We sum this with the process repeated for sentence2 words compared to sentence 1 words. 
- We tried an ensemble of distance functions but found that euclidean distance worked the best and was most intuitive to interpret the word2vec model. 
+ We tried an ensemble of distance functions but found that euclidean distance worked the best and was most intuitive to interpret the \wordtvec\ model. 
 
-Another major consideration in our results was the evaluation of weighing each word2vec by parts of speech. what this means is that for some sentence we would extract the verbs and compute word mover distance for just that part of speech. We replicated this for three major classes: Noun, represented as the tag "NOUN". Proper Nouns with the tag "PROPN", and verbs with the tag "VERB". 
+Another major consideration in our results was the evaluation of weighing each \wordtvec by parts of speech. what this means is that for some sentence we would extract the verbs and compute word mover distance for just that part of speech. We replicated this for three major classes: Noun, represented as the tag "NOUN". Proper Nouns with the tag "PROPN", and verbs with the tag "VERB". 
 It was our hope that by introducing a variable for each part of speech that the differing weights would help improve our accuracy of regression. The resulting vectors
 
 \begin{center}
@@ -268,11 +275,27 @@ It was our hope that by introducing a variable for each part of speech that the 
 	Combined & \textbf{0.57243} & 0.75071 & 0.75070 & 0.65906 & 9.79779 \\ \hline
 	\end{tabular}
 \end{center}
-This is an interesting result in that we expected a significant increase in performance using word movers distance. Even when considering weighing each vector by its part of speech the best log loss we can achieve is .57243 with LogisticRegression as our regressor. This discrepancy between our results and expectation is an indication that we are failing to use some hidden structure of the data. Another observation of note from the results is the importance of word mover distance over all non-stopwords in a sentence as the highest achieving individual variable. We also notice that an ensemble of both weak and strong variables propel our methods to the best observation seen in this set. This is interesting of note in that we generate more features that are assumed independent then we may improve our results. This could be one key into the results of the top leaders in the Kaggle leadership board.
+This is an interesting result in that we expected a significant increase in performance using word movers distance. Even when considering weighing each vector by its part of speech the best log loss we can achieve is .57243 with LogisticRegression as our regressor. This discrepancy between our results and expectation is an indication that we are failing to use some hidden structure of the data. Another observation of note from the results is the importance of word mover distance over all non-stopwords in a sentence as the highest achieving individual variable. We also notice that an ensemble of both weak and strong variables propel our methods to the best observation seen in this set. This is interesting of note in that we generate more features that are assumed independent then we may improve our results. This could be one key to the results of the top leaders in the Kaggle leadership board.
 
-One more thing to note on each regressions performance is that logistic was occasionally out-performed by linear and Ridge regression. Linear and Ridge Regression consistently performed the same over the training and evaluation methods. The most consistent was LassoLars with a log loss of $.65906$ for each feature set. The worst performing method was by far Stochastic Gradient Descent. We believe this is indicative of SGD not having an adequate amount of features and data observations to train on. SGD may increase in performance 
+One more thing to note on each regressions performance is that logistic was occasionally out-performed by linear and Ridge regression. Linear and Ridge Regression consistently performed the same over the training and evaluation methods. The most consistent method was LassoLars with a log loss of $.65906$ for each feature set. The worst performing method was by far Stochastic Gradient Descent. We believe this is indicative of SGD not having an adequate amount of features and data observations to train on. We hypothesize that with enough features SGD will attain better performance.
 \subsection{Ensemble Methods}
+One of our most sucessful methods was the employment of Ensemble Methods. Ensemble methods are where a group of entities 'vote' for a specific prediction value and those are then evaluated to a final prediction. The Methods we used can be broken into three categories:
+\begin{enumerate}
+	\item Built-in sklearn methods (RandomForest, GradientBoost)
+	\item average together of different methods on the same features
+	\item averaged different methods on differing features
+\end{enumerate}
+The Built-in methods were extremely successful in 
 
+The Average of different methods on the same feature set did not achieve any noticeable improvement over the Built-in methods. This is because when using sklearn's ensemble framework VotingClassifier, differing methods on the same feature set will lead to the dominant method controlling the outcome almost entirely.
+The Average of different methods over different features achieved our best performance for the entire project. In this method an analysis is assigned to a feature and then "votes" for a particular outcome. Those votes across all the features are weighted and then averaged for a final prediction from the voting ensemble.
+
+Ensemble methods we 
+this was the most sucesfull Random forest of trees
+also tried 3 different types
+ - builtint RandoForest and Boosting very scucesful
+ 0 average together multiple different methods (soft voting) =-  unsuccesful there was one defined victor that was way better
+ - 3rd averaged on different sets of features and differing methods
 \section{Discussion and Conclusion}
 
 Our methods were not competitive with the best submissions on Kaggle. As of this write-up, 86 teams had submissions with log loss under 0.2, and 577 under 0.3. However, these methods use \_\_neural networks\_\_. The disadvantage of neural networks is their difficulty to interpret. The methods that we used, especially the more successful ones, benefit from a high level of interpretability. 
@@ -287,7 +310,6 @@ Lastly, WordNet would be interesting to investigate further and see if we can st
 
 In future work, it will be interesting to generate more features representing different structures in the question text. In example, analyzing the root verb and its immediate children weighing the word2vec linguistic tree by distance from the root phrase. Other Linguistic structures would be interesting and thought provoking to explore. That said, we acknowledge that chasing "the prefect" feature can become a slippery slope in feature engineering.
 
-\fix
 Another consideration would to be to look into Deep learning methods and specifically recurrent neural network architectures for their ability to incorporate previous structure into the next iteration of learning. Hopefully some Deep Learning methods will uncover hidden structures for the questions and ability to detect duplicates.
 
 \subsubsection*{Acknowledgments}
