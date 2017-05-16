@@ -1,4 +1,4 @@
-\documentclass{article} % For LaTeX2e
+ \documentclass{article} % For LaTeX2e
 \usepackage{cos424,times}
 \usepackage{url}
 \usepackage{graphicx}
@@ -55,7 +55,7 @@ Zhang, et. al. created a duplicate detection tool for use on the Stack Overflow 
 
 Since Quora questions include only the single sentence question, they are nearly equivalent to just the title of an SO question. The tags and content on SO are more significant and better indicate the meaning of a question, meaning this method is not useful on the Quora dataset. This analysis also only used bag-of-words text similarity and LDA to detect duplicates.
 
-An earlier paper focused on detecting duplicate bug reports~\cite{Runeson2007}. The motivation of this problem is similar, centering on the wasted time used to identify and respond to duplicate reports. This study used standard NLP tools along with a term-frequency vector space to define distance measured between reports. 
+An earlier paper focused on detecting duplicate bug reports~\cite{Runeson2007}. The motivation of this problem is similar, centering on the wasted time used to identify and respond to duplicate reports. This study used standard NLP tools along with a term-frequency vector space to define distance measured between reports. Another paper contains a review of relevant similarity measures from 2008 can be found in~\cite{acha08}.
 
 
 
@@ -185,11 +185,11 @@ The results for word count and BOW based methods are summarized in table~\ref{ta
 \centerline{
 \begin{tabular}{|c||c|c|c|c|c|}
 	\hline
-	Log loss       &  MNB    & LogReg  & with SGD& RandForest & Other \\
+	Log loss       &  MNB    & LogReg  & with SGD& RandForest & Mean \\
 	\hline
-	Word Count     & 0.96641 & 0.54342 & 0.55215 & 0.49019    & --- \\
-	Bag of Words   & 0.51773 & 0.41490 & 0.46103 & 0.61665    & --- \\
-	BOW, tf-idf    & 0.45464 & 0.42771 & 0.52297 & 0.60837    & --- \\
+	Word Count     & 0.96641 & 0.54342 & 0.55215 & 0.49019    & ---  \\
+	Bag of Words   & 0.51773 & 0.41490 & 0.46103 & 0.61665    & ---  \\
+	BOW, tf-idf    & 0.45464 & 0.42771 & 0.52297 & 0.60837    & ---  \\
 	\hline
 	\hline
 	Ensemble       & ---     & ---     & ---     & ---        &  \\
@@ -200,6 +200,23 @@ The results for word count and BOW based methods are summarized in table~\ref{ta
 \end{table}
 
 The ensemble method is an average of the best individual methods.
+
+\begin{table}
+\vspace{2mm}
+\centerline{
+\begin{tabular}{|c||c|c|c|c|c|}
+	\hline
+	          & Accuracy & Precision & Recall & F1 & log loss \\
+	\hline
+	mean      & 0.8325 & 0.7822 & 0.7536 & 0.7677 & 0.3777 \\
+	lrbow     & 0.8037 & 0.7353 & 0.7264 & 0.7311 & 0.4087 \\
+	rfwc      & 0.8103 & 0.7559 & 0.7136 & 0.7342 & 0.4063 \\
+	\wordtvec & 0.6396 & 0.5239 & 0.2694 & 0.3558 & 0.5874 \\
+	\hline
+\end{tabular}}
+\caption{\textbf{Alternative Evaluation Methods.} Log loss is calculated from the probabilities, while all others are generated using predictions with a cutoff probability of 0.5}
+\label{tab:res}
+\end{table}
 
 \subsection{Word Counts} \label{sub:count_res}
 
@@ -216,6 +233,8 @@ The best classification method for the word count was a random forest. This is n
 \end{figure}
 
 \subsection{Bag-of-Words} \label{sub:bow_res}
+
+The bag of words methods 
 
 \subsection{WordNet} \label{sub:wnet_res}
 
