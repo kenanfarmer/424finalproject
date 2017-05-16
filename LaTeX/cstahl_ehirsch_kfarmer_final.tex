@@ -203,12 +203,16 @@ The ensemble method is an average of the best individual methods.
 
 \subsection{Word Counts} \label{sub:count_res}
 
+The word count method worked well as a baseline method. On the testing data, it did not perform as well as guessing the mean, but again this is because we did not adjust the mean of our predictions to match the empirical mean. Simple features of the number of shared words and the number of common words alone scored \_\_\_\_, while a method including all features scored a best of \_\_\_\_. 
+
+The best classification method for the word count was a random forest. This is not surprising, because\_\_\_\_. ROC curves for both the word count and BOW methods can be seen in figure~\ref{fig:roc_wc}.
+
 \begin{figure}[]
 	\centering
 	\includegraphics[width=.49\textwidth]{roc}
 	\includegraphics[width=.49\textwidth]{roc_wc}
 	\caption{\textbf{ROC curves for word count and BOW methods.}}
-	\label{roc_wc}
+	\label{fig:roc_wc}
 \end{figure}
 
 \subsection{Bag-of-Words} \label{sub:bow_res}
