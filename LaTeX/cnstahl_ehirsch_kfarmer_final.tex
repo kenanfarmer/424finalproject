@@ -236,8 +236,15 @@ The best classification method for the word count was a random forest. This is n
 
 The Bag of word model is of width twice the vocabulary length, one half to represent the words that are in common between the two questions and one half to represent the words that differ between the two questions. This made the data quite large and immediately showed the problems associated with size in the Random Forest Regressor taking a large amount of time to run. The Random Forest Regressor method from sci-kit learn took so long that we removed that method of analysis in our results. The Multinomial Naive Bayes method ran the fastest out of the methods analyzed and gave surprising performance only to be bested by Logistic Regression for each feature model. The best performing model was logistic regression with a score of .41490 which is a surprising testament to counterintuitive performance of simple models.
  
-Support Vector Machines were computationally too expensive to run any feature set.
 
+\begin{figure}[]
+	\centering
+	\includegraphics[width=.49\textwidth]{roc}
+	\caption{\textbf{Violin plot of the probabilities of positive or negative using our engineered BOW features.}}
+	\label{fig:violin}
+\end{figure}
+ 
+ Support Vector Machines were computationally too expensive to run any feature set.
 \subsection{WordNet} \label{sub:wnet_res}
 Our exploration of WordNet seemed promising from the beginning of the project and through feature planning. However, the vast scale of WordNet and various issues in contextualizing words made this intractable for our large dataset. The main problem is that each word can have different parts of speech or different \textit{meanings} leading to a vast number of synsets per word. In example, the word dog has 11 synsets to which it belongs in the english NLTK corpus. To calculate the WordNet measure of similarity we must filter through these to find the correct match of context. After investigating tools to accomplish this task, We found LESK a function in the NLTK package that resolves which synset to use given the word's context in the sentence. Quickly we found that LESK did not have enough context clues to resolve synsets.
 
