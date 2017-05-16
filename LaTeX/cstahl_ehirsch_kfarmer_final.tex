@@ -65,7 +65,27 @@ As mentioned in the abstract, the testing set is significantly larger than the t
 
 We decided to approach the problem differently than the method in~\cite{Zhang2015}. While they chose to model each question and then look for duplicates, we decided that method would not be as helpful. Since we are looking for duplicates rather than related questions, the all-to-all interactions would be very sparse. Therefore we chose to model the problem as binary classification on question pairs, extracting features from each pair. 
 
-Since the text of the testing data would be available in a real-world application of this problem, we decided that training models on this text would not be considered double-dipping, especially since we did not have labels for this text. 
+As in all machine learning projects, our goal was to classify duplicates as well as we could, under some definition of well. We decided to use the competition's definition of well, which was to minimize the log loss of the probabilities of duplicates. This is defined as the negative sum of the probabilities we assign to the correct class, or
+\begin{align}
+\text{log loss} = -\frac{1}{N}\sum_n \left(y_n\log p_n + (1-y_n)\log(1-p_n)\right),
+\end{align} 
+where $y_n$ is the true class label and $p_n$ is the probability we assign to the pair of being a duplicate. 
+
+We did however impose some restrictions on what information we would use. The competition exposed the text of the testing data but not the labels. Since the text of the testing data would be available in a real-world application of this problem, we decided that training models on this text would not be considered double-dipping, especially since we did not have labels for this text. 
+
+It is possible, however, to extract some information about the testing data through the reported log loss. Since the log loss function is 2-to-1 for constant reported probability, we could submit a file with all pairs given probability $p$. The log loss is then
+\begin{align}
+\text{log loss} &= -\frac{1}{N}\sum_n \left(y_n\log p + (1-y_n)\log(1-p)\right)
+	\nonumber\\
+&= -\left(y'\log p + (1-y')\log(1-p)\right),
+\end{align}
+or 
+\begin{align}
+y' = \frac{\text{log loss} + \log(1-p)}{\log(1-p)-\log p},
+\end{align}
+where $y'$ is the proportion of positive test samples. A constant test prediction of 0.75 results in a log loss of 1.19485, meaning the proportion of positive test samples is 0.17426. Simply guessing this probability results in a log loss of 0.46258. However, since this data would not be accessible in the real world, we decided to not use it in our methods. 
+
+We also chose not use use neural networks for prediction, despite the fact that most people at the top of the leaderboard probably did. This allowed up to have more easily interpretable results, but led to less-than-stellar submissions. 
 
 The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. Another NLP tool used is the Natural Language Toolkit~\cite{nltk}.
 
@@ -160,7 +180,7 @@ An impressive display of the significance of \wordtvec\ is the capability to for
 
 The results are summarized in table~\ref{tab:res}.
 
-\begin{table}
+\begin{table}[h]
 \centerline{
 \begin{tabular}{|c||c|c|c|c|}
 	\hline
@@ -177,6 +197,8 @@ The results are summarized in table~\ref{tab:res}.
 	\caption{\textbf{Log loss results for various models}}
 	\label{tab:res}
 \end{table}
+
+\_\_\_\_ performed the best, blah blah blah
 
 \subsection{Word Counts} \label{sub:count_res}
 
