@@ -37,3 +37,5 @@ python/saved_vec_mod.kf
 python/save.p
 
 *.csv
+cfv_train
+cfv_test
