@@ -217,11 +217,26 @@ The results are summarized in table~\ref{tab:res}.
 \subsection{\wordtvec}
 The word to Vector implementation results were extremely puzzling. we can break down our feature set that was input into major categories.
 
-Once each word in a sentence is vectorized there are many ways to filter and evaluate the two collection of vectors. One implementation is known as Word mover's distance. Let a sentence be a list of words. In our case we have lemmatized each word in a sentence and removed stopwords using NLTK's stopword corpus. Word movers distance is defined as taking each word inspected in one sentence and finding the minimum distance to a vector in sentence2. Using this min distance, we sum the total for each vector in sentence1. We sum this with the process repeated for sentence2 words compared to sentence 1 words. We may write $x_1$ as a word in sentence one and $v_1 = \{x_1,...\}$ the collection of words in sentence 1 and $x_2, v_2$ defined analogously for sentence 2. This allows us to mathematically define the word mover's distance as:
+Once each word in a sentence is vectorized there are many ways to filter and evaluate the two collection of vectors. One implementation is known as Word mover's distance. Let a sentence be a list of words. In our case we have lemmatized each word in a sentence and removed stop words using NLTK's stop word corpus. Word movers distance is defined as taking each word inspected in one sentence and finding the minimum distance to a vector in sentence2. Using this min distance, we sum the total for each vector in sentence1. We sum this with the process repeated for sentence2 words compared to sentence 1 words. We may write $x_1$ as a word in sentence one and $v_1 = \{x_1,...\}$ the collection of words in sentence 1 and $x_2, v_2$ defined analogously for sentence 2. This allows us to mathematically define the word mover's distance as:
 $$ \sum_{x_1 \in v_1} \min_j{dist(x_1,x_{2j}) } + \sum_{x_2 \in v_2} \min_j{dist(x_2,x_{1j}) } $$
 where $dist()$ is the function we use as our vector distance metric. We tried an ensemble of distance functions but found that euclidean distance worked the best and was most intuitive to interpret the word2vec model. 
 
-Another major consideration in our results was the evaluation of weighing each word2vec by parts of speech. what this means is that for some sentence we would extract the verbs and compute word mover distance for just that part of speech. we replicated this for three major classes
+Another major consideration in our results was the evaluation of weighing each word2vec by parts of speech. what this means is that for some sentence we would extract the verbs and compute word mover distance for just that part of speech. We replicated this for three major classes: Noun, represented as the tag "NOUN". Proper Nouns with the tag "PROPN", and verbs with the tag "VERB". 
+It was our hope that by introducing a variable for each part of speech that the differing weights would help improve our accuracy of regression. The resulting vecotrs\_\_
+
+\begin{center}
+\textbf{Cross Validation Results(with Log Loss function)}
+
+	\begin{tabular}{|c|c|c|c|c|c|} \hline
+	Method & Logistic & Linear & Ridge & LassoLars & SDG \\ \hline
+	Custom WMD & \textbf{0.64659} & \textbf{0.64659} &\textbf{ 0.64659} & 0.65906 & 12.78577 \\ \hline
+	unique words WMD & 0.67535 & \textbf{0.65143} & \textbf{0.65143} & 0.65906 & 12.78470 \\ \hline
+	combined verbs and noun WMD & 0.67462 & \textbf{0.65875} & \textbf{0.65875} & 0.65906 & 12.78727 \\ \hline
+	named entities WMD & 0.67568 & \textbf{0.65733} & \textbf{0.65733} & 0.65906 & 12.81439 \\ \hline
+	Various parts of speech weighted & \textbf{0.65728} & 0.65766 & 0.65766 & 0.65906 & 17.49136\\ \hline
+	Combined & \textbf{0.57243} & 0.75071 & 0.75070 & 0.65906 & 9.79779 \\ \hline
+	\end{tabular}
+\end{center}
 
 \subsection{Ensemble Methods}
 
