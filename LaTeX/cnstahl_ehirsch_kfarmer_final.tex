@@ -218,7 +218,11 @@ The best classification method for the word count was a random forest. This is n
 \subsection{Bag-of-Words} \label{sub:bow_res}
 
 \subsection{WordNet} \label{sub:wnet_res}
+Our exploration of WordNet seemed promising from the beginning of the project and through feature planning. However, the vast scale of WordNet and various issues in contextualizing words made this intractable for our large dataset. The main problem is that each word can have different parts of speech or different \textit{meanings} leading to a vast number of synsets per word. In example, the word dog has 11 synsets to which it belongs in the english NLTK corpus. To calculate the WordNet measure of similarity we must filter through these to find the correct match of context. After investigating tools to accomplish this task, We found LESK a function in the NLTK package that resolves which synset to use given the word's context in the sentence. Quickly we found that LESK did not have enough context clues to resolve synsets.
 
+After abandoning the sysnets we attempted to resolve with the most popular context and run with that. This also became too computationally expensive as each WordNet query required a search for the most specific common ancestor of the two words. This expensive query lead to run times of close to 5 hours for running on just the training data set. An expected 30 hours would be needed for running on the full training an testing dataset.
+
+%\footnote{We believe in reporting both our failures and our successes which unfortunately is a sparse characteristic in academia research today}
 \subsection{\wordtvec}
 The word to Vector implementation results were extremely puzzling. We can break down our feature set that was input into major categories.
 
@@ -244,6 +248,8 @@ It was our hope that by introducing a variable for each part of speech that the 
 	\end{tabular}
 \end{center}
 This is an interesting result in that we expected a significant increase in performance using word movers distance. Even when considering weighing each vector by its part of speech the best log loss we can achieve is .57243 with LogisticRegression as our regressor. This discrepancy between our results and expectation is an indication that we are failing to use some hidden structure of the data. Another observation of note from the results is the importance of word mover distance over all non-stopwords in a sentence as the highest achieving individual variable. We also notice that an ensemble of both weak and strong variables propel our methods to the best observation seen in this set. This is interesting of note in that we generate more features that are assumed independent then we may improve our results. This could be one key into the results of the top leaders in the Kaggle leadership board.
+
+One more thing to note on each regressions performance is that logistic was occasionally out-performed by linear and Ridge regression. Linear and Ridge Regression consistenetly performed the same over the training and evaluation methods. The most consistent was LassoLars with a log loss of $.65906$ for each feature set. The worst performing method was by far Stochastic Gradient Descent. The
 \subsection{Ensemble Methods}
 
 \section{Discussion and Conclusion}
@@ -259,6 +265,7 @@ Since \wordtvec\ embeds the words in a lower-dimensional space defined by a neur
 Lastly, Wordnet \_\_\_
 
 In future work, it will be interesting to generate more features representing different structures in the question text. In example, analyzing the root verb and its immediate children weighing the word2vec linguistic tree by distance from the root phrase. Other Linguistic structures would be interesting and thought provoking to explore. That said, we acknowledge that chasing "the prefect" feature can become a slippery slope in feature engineering.
+
 \fix
 Another consideration would to be to look into Deep learning methods and specifically recurrent neural network architectures for their ability to incorporate previous structure into the next iteration of learning. Hopefully some Deep Learning methods will uncover hidden structures for the questions and ability to detect duplicates.
 
