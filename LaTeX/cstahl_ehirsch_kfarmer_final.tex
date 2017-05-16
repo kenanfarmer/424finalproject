@@ -34,14 +34,14 @@ Computer Science \\
 \maketitle
 
 \begin{abstract}
-This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. The methods we used consisted of counting the overlapping words, bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data. We then used multinomial na\"ive Bayes, stochastic gradient descent, logistic regression, and random forest models to classify duplicates. The best method was BOW with logistic regression.
+This project uses a dataset posted on Kaggle~\cite{kaggleComp} to detect duplicate question pairs on Quora, a popular question-and-answer website~\cite{quora} that received 100 million monthly unique visitors as of March 2016~\cite{qvisit}. The training data includes 404,290 question pairs chosen from 537,933 questions, classified as duplicates or not. The testing set was 2.3 million unlabeled pairs, with 4.2 million unique questions. The methods we used consisted of counting the overlapping words, bag-of-words (BOW) methods, \wordtvec, and word nets to reduce the dimensionality of the data. We then used multinomial na\"ive Bayes, \_\_stochastic gradient descent\_\_, logistic regression, and random forest models to classify duplicates. The best method was BOW with logistic regression.
 \end{abstract}
 
 \section{Introduction}
 
-Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are "either locked in people’s heads, or only accessible to select groups" \cite{quora}. Questions range from "What is the most embarrassing text message you have sent to the wrong person?" to "How do I identify entities in natural language search query?" to "Do virtual particles and energy in vacuum really exist?"
+Quora is a website that strives to connect people from different backgrounds to be able to answer questions whose answers are ``either locked in people’s heads, or only accessible to select groups" \cite{quora}. Questions range from ``What is the most embarrassing text message you have sent to the wrong person?" to ``How do I identify entities in natural language search query?" to ``Do virtual particles and energy in vacuum really exist?"
 
-Once a question is answered, any other person should be able to find the response, and the question never needs to be asked again. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having "only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the canonical response the website has to offer.
+Once a question is answered, any other person should be able to find the response, and the question never needs to be asked again. However, sometimes people are unable to find the questions they want and end up asking the same question again. This counteracts Quora's vision of having ``only one version of each question\dots [not] a left wing version, a right wing version, a western version, and an eastern version"~\cite{quora}. Duplicate questions also waste resources for the website, the answerers, and future viewers who will either see one answer or the other, but not the canonical response the website has to offer.
 
 Quora currently identifies duplicate questions with a Random Forest model~\cite{kaggleComp}. Quora does not have a method for users to mark questions as duplicates, although they allow users to redirect questions. Stack Exchange, a similar question-answer website, does allow users to mark questions as duplicates~\cite{stackdup}. 
 
@@ -87,7 +87,7 @@ where $y'$ is the proportion of positive test samples. A constant test predictio
 
 We also chose not use use neural networks for prediction, despite the fact that most people at the top of the leaderboard probably did. This allowed up to have more easily interpretable results, but led to less-than-stellar submissions. 
 
-The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for "Industrial-Strength Natural Language Processing"~\cite{spacy}. Another NLP tool used is the Natural Language Toolkit~\cite{nltk}.
+The training data was read from csv files using Pandas~\cite{pandas}. Lemmatization and stop word removal was completed using the Spacy package, a package for ``Industrial-Strength Natural Language Processing"~\cite{spacy}. Another NLP tool used is the Natural Language Toolkit~\cite{nltk}.
 
 \section{Methods}
 
@@ -152,7 +152,7 @@ The key to \wordtvec\ is in looking at the output of the hidden layer. In fact, 
 
 The last step, to actually obtain dense representations of the words in a vector space, is to realize that since the output vector is a linear transformation of the output of the hidden layer, two words with similar weights in the hidden layer will be semantically related. As described after equation~\ref{eqn:hidden}, these outputs are just the columns of $M$, which can be called the word vectors. 
 
-An impressive display of the significance of \wordtvec\ is the capability to form analogies through algebraic manipulation of vectors. For example, starting with the vector for "Paris," one can subtract the vector for "France" and add the vector for "Italy." The nearest vector in the space will then be "Rome." A list of such analogies is in table~\ref{tab:anal}, including the imperfect analogies.
+An impressive display of the significance of \wordtvec\ is the capability to form analogies through algebraic manipulation of vectors. For example, starting with the vector for ``Paris," one can subtract the vector for ``France" and add the vector for ``Italy." The nearest vector in the space will then be ``Rome." A list of such analogies is in table~\ref{tab:anal}, including the imperfect analogies.
 
 \begin{table} [tb]
 \centerline{
@@ -184,7 +184,7 @@ The results are summarized in table~\ref{tab:res}.
 \centerline{
 \begin{tabular}{|c||c|c|c|c|}
 	\hline
-	Log loss       &  MNB    &  SGD    & LogReg  & RandForest \\
+	Log loss       &  MNB    &  \_\_SGD\_\_    & LogReg  & RandForest \\
 	\hline
 	Word Count     & 0.96641 & 0.55215 & 0.54342 & 0.49019 \\
 	Bag of Words   & 0.51773 & 0.46103 & 0.41490 & 0.61665 \\
